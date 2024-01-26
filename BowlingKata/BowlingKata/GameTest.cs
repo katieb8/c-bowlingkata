@@ -5,6 +5,7 @@ namespace BowlingKata
     [TestFixture]
     public class GameTest
     {
+        private const int MaxFrames = 10;
         private Game _game;
 
         [SetUp]
@@ -12,13 +13,12 @@ namespace BowlingKata
         {
             _game = new Game();
         }
+
         [Test]
-        public void GutterGame()
+        public void GutterFrame()
         {
-            for (var i = 0; i < 20; i++)
-            {
-                _game.Roll(0);
-            }
+            _game.Roll(0);
+            _game.Roll(0);
             Assert.That(_game.Score(), Is.EqualTo(0));
         }
 
@@ -37,12 +37,24 @@ namespace BowlingKata
             Assert.That(_game.Score(), Is.EqualTo(12));
         }
 
+        [Test]
+        public void GutterGame()
+        {
+            for (var i = 0; i < MaxFrames; i++)
+            {
+                _game.Roll(0);
+                _game.Roll(0);
+            }
+            Assert.That(_game.Score(), Is.EqualTo(0));
+        }
+        
         private void RollASingleSpare()
         {
             _game.Roll(1);
             _game.Roll(9);
 
             _game.Roll(1);
+            _game.Roll(0);
         }
     }
 }
